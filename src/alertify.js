@@ -1,8 +1,22 @@
-/*global define*/
-(function (global, undefined) {
+/* global define, window */
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define([], factory);
+    } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like environments that support module.exports,
+        // like Node.
+        module.exports = factory();
+    } else {
+        // Browser globals (root is window)
+        root.alertify = factory();
+  }
+}(this, function () {
 	"use strict";
 
-	var document = global.document,
+	var root = window,
+      document = root.document,
 	    Alertify;
 
 	Alertify = function () {
@@ -209,9 +223,9 @@
 			 * @return {boolean} success
 			 */
 			handleErrors : function () {
-				if (typeof global.onerror !== "undefined") {
+				if (typeof root.onerror !== "undefined") {
 					var self = this;
-					global.onerror = function (msg, url, line) {
+					root.onerror = function (msg, url, line) {
 						self.error("[" + msg + " on line " + line + " of " + url + "]", 0);
 					};
 					return true;
@@ -616,11 +630,5 @@
 		};
 	};
 
-	// AMD and window support
-	if (typeof define === "function") {
-		define([], function () { return new Alertify(); });
-	} else if (typeof global.alertify === "undefined") {
-		global.alertify = new Alertify();
-	}
-
-}(this));
+	return new Alertify();
+}));

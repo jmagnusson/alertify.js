@@ -1,5 +1,6 @@
 {
   "name": "alertify",
+  "main": "lib/alertify.js",
   "description": "An unobtrusive customizable JavaScript notification system",
   "version": "0.3.11",
   "homepage": "http://fabien-d.github.com/alertify.js/",
